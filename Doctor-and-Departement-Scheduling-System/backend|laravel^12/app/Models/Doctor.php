@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Doctor extends Model
 {
     protected $fillable = [
+        'doctor_id',
         'name',
         'gender',
         'phone_number',
@@ -14,6 +15,12 @@ class Doctor extends Model
         'email',
         'bio',
     ];
+
+    protected $primaryKey = 'doctor_id';
+
+    public $incrementing = false;
+
+    protected $keyType = 'string';
 
     public function schedules() {
         return $this->hasMany(Schedule::class);

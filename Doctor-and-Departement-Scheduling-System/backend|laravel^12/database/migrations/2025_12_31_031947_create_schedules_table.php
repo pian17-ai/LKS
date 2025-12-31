@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('schedules', function (Blueprint $table) {
             $table->id('schedule_id');
-            $table->unsignedBigInteger('doctor_id');
-            $table->unsignedBigInteger('departement_id');
+            $table->string('doctor_id');
+            $table->string('departement_id');
             $table->foreign('doctor_id')->references('doctor_id')->on('doctors');
             $table->foreign('departement_id')->references('departement_id')->on('departements');
             $table->dateTime('schedule_date');

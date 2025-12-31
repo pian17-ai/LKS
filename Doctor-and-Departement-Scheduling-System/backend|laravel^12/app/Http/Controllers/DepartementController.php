@@ -5,19 +5,25 @@ namespace App\Http\Controllers;
 use App\Models\Departement;
 use App\Models\Schedule;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class DepartementController extends Controller
 {
     public function index(Request $request)
     {
-        $validated = $request->validate([
+        $validator = Validator::make($request->query(), [
             'page' => 'integer|min:0',
-            'size' => 'integer|min:1'
+            'size' => 'integer|min:1',
         ]);
 
-        $page = max(0, (int) $request->query('page', 0));
-        $size = max(1, (int) $request->query('size', 10));
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors()
+            ], 400);
+        }
 
+        $page = $request->query('page', 0);
+        $size = $request->query('size', 10);
 
         $departements = Departement::offset($page * $size) //new concept
             ->limit($size)
@@ -41,7 +47,7 @@ class DepartementController extends Controller
         $departement = Departement::create([
             'departement_id' => $validated['departementId'],
             'departement_name' => $validated['name'],
-            'departement_description' => $validated['description'] ?? ""
+            'departement_description' => $validated['description'] ?? null
         ]);
 
         return response()->json([
