@@ -12,6 +12,12 @@ class Departement extends Model
         'departement_description',
     ];
 
+    protected $primaryKey = 'departement_id';
+
+    public $incrementing = false;
+
+    protected $keyType = 'string';
+
     public function schedules() {
         return $this->hasMany(Schedule::class);
     }
