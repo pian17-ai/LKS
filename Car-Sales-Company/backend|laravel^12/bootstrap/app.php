@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Middleware\User\OfficerMiddleware;
+use App\Http\Middleware\User\UserMiddleware;
+use App\Http\Middleware\User\ValidatorMiddleware;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -12,8 +16,16 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->alias([
+            'user' => UserMiddleware::class,
+            'officer' => OfficerMiddleware::class,
+            'validator' => ValidatorMiddleware::class
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        $exceptions->render(function (AuthenticationException $e, $request) {
+            return response()->json([
+                'message' => 'Unauthorized user'
+            ], 401);
+        });
     })->create();
