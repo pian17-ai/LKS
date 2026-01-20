@@ -20,7 +20,7 @@ return new class extends Migration
             $table->enum('gender', ['male', 'female']);
             $table->text('address');
             $table->foreignId('regional_id')->constrained('regionals');
-            $table->text('login_token');
+            $table->text('login_token')->nullable();
         });
     }
 

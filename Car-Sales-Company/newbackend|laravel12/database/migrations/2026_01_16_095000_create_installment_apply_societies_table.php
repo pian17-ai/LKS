@@ -17,7 +17,7 @@ return new class extends Migration
             $table->bigInteger('available_month_id');
             $table->date('date');
             $table->foreignId('society_id')->constrained('societies');
-            $table->foreignId('installment_id')->constrained('installment');
+            $table->foreignId('installment_id')->constrained('installments');
         });
     }
 

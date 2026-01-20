@@ -14,10 +14,10 @@ return new class extends Migration
     {
         Schema::create('available_month', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('installment_id')->constrained('installment');
+            $table->foreignId('installment_id')->constrained('installments');
             $table->integer('month');
             $table->text('description');
-            $table->integer('nominal');
+            $table->bigInteger('nominal');
         });
     }
 

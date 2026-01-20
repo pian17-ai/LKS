@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class InstallmentApplyStatus extends Model
 {
+    protected $table = 'installment_apply_status';
+
     protected $fillable = [
         'date',
         'society_id',
@@ -26,10 +28,10 @@ class InstallmentApplyStatus extends Model
     }
 
     public function available_month() {
-        return $this->belongsTo(AvailableMonth::class);
+        return $this->belongsTo(AvailableMonth::class, 'available_month_id');
     }
 
     public function installment_apply_society() {
-        return $this->belongsTo(InstallmentApplySociety::class);
+        return $this->belongsTo(InstallmentApplySociety::class, 'installment_apply_societies_id');
     }
 }

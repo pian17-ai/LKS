@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->date('date');
             $table->foreignId('society_id')->constrained('societies');
-            $table->foreignId('installment_id')->constrained('installment');
+            $table->foreignId('installment_id')->constrained('installments');
             $table->foreignId('available_month_id')->constrained('available_month');
             $table->foreignId('installment_apply_societies_id')->constrained('installment_apply_societies');
             $table->enum('status', ['pending', 'accepted', 'rejected'])->default('pending');

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->text('job_description');
             $table->bigInteger('income');
             $table->text('reason_accepted');
-            $table->text('validator_notes');
+            $table->text('validator_notes')->nullable();
         });
     }
 
