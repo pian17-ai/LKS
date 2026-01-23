@@ -1,19 +1,25 @@
-import { useState } from "react";
-import CarList from "./pages/CarList";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import ProtectedRoute from "./router/ProtectedRoute";
+import InstallmentList from "./pages/InstallmentList";
 import Login from "./pages/Login";
 
 export default function App() {
-  const [isLogin, setIsLogin] = useState(
-    !!localStorage.getItem("token")
-  );
-
   return (
-    <>
-      {isLogin ? (
-        <CarList/>
-          ) : (
-            <Login onLogin={() => setIsLogin(true)}/>
-      )}
-    </>
-  );
+    <BrowserRouter>
+      <Routes>
+        {/* {default} */}
+        <Route path="/" element={<Navigate to="/login" />}/>
+
+        {/* {login} */}
+        <Route path="/login" element={<Login/>}/>
+
+        {/* {protected} */}
+        <Route path="/installments" element={
+          <ProtectedRoute>
+            <InstallmentList/>
+          </ProtectedRoute>
+        } />
+      </Routes>
+    </BrowserRouter>
+  )
 }

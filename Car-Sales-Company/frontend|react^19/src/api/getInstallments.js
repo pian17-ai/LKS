@@ -1,6 +1,6 @@
 const API_URL = "http://localhost:8000/api/v1";
 
-export async function getCars() {
+export async function getInstallments() {
     const token = localStorage.getItem('token');
 
     const response = await fetch(`${API_URL}/instalment_cars`, {

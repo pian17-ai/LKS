@@ -4,7 +4,8 @@ export async function login(id_card_number, password) {
     const response = await fetch(`${API_URL}/login`, {
         method: "POST",
         headers: {
-            "Content-Type" : "application/json"
+            "Content-Type" : "application/json",
+            "Accept" : "application/json"
         },
         body: JSON.stringify({
             id_card_number : id_card_number,
