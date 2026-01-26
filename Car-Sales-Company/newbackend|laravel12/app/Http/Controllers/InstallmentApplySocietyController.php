@@ -15,6 +15,12 @@ class InstallmentApplySocietyController extends Controller
 {
     public function store(Request $request)
     {
+        $validated = $request->validate([
+            'installment_id' => 'required|exists:installments,id',
+            'months' => 'required',
+            'notes' => 'required'
+        ]);
+
         $user = $request->user();
 
         $validation = Validation::where('society_id', $user->id)->first();
@@ -25,7 +31,7 @@ class InstallmentApplySocietyController extends Controller
             ], 401);
         }
 
-        $checkAlready = InstallmentApplySociety::where('society_id', $user->id)->first();
+        $checkAlready = InstallmentApplySociety::where('installment_id', $validated['installment_id'])->first();
 
         if ($checkAlready) {
             return response()->json([
@@ -33,11 +39,6 @@ class InstallmentApplySocietyController extends Controller
             ], 401);
         }
 
-        $validated = $request->validate([
-            'installment_id' => 'required|exists:installments,id',
-            'months' => 'required',
-            'notes' => 'required'
-        ]);
 
         $month = AvailableMonth::where('installment_id', $validated['installment_id'])->where('month', $validated['months'])->first();
 
