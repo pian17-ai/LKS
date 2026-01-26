@@ -16,7 +16,8 @@ class AvailableMonthIndexResource extends JsonResource
     {
         return [
             'month' => $this->month,
-            'description' => $this->description
+            'description' => $this->description,
+            'nominal' => $this->nominal
         ];
     }
 }
