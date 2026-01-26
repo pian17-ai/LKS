@@ -6,6 +6,6 @@ export const loginApi = async (payload) => {
 };
 
 
-export const logoutApi = () => {
-    api.post("auth/login");
+export const logoutApi = ()=> {
+    return api.post("auth/logout");
 };

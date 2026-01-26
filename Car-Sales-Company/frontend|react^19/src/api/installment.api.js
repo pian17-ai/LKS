@@ -6,7 +6,7 @@ export const getInstalmentCars = async () => {
 }
 
 export const getInstalmentDetail = (id) => {
-    api.get(`/instalment_cars/${id}`)
+    return api.get(`/instalment_cars/${id}`)
 }
 
 export const applyInstalment = async (payload) => {

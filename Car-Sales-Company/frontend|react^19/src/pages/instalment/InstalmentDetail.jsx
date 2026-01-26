@@ -1,35 +1,110 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getInstalmentDetail } from "../../api/installment.api";
-import { ApplyingInstallment } from "../../api/application.api";
+import { applyInstalment, getInstalmentDetail } from "../../api/installment.api";
 
 export default function InstalmentDetail() {
     const { id } = useParams();
     const [car, setCar] = useState(null);
-    const [months, setMonths] = useState(12);
-    const [notes, setNotes] = useState("");
+    const [notes, setNotes] = useState(null);
+    // const [selectMonth, setSelectMonth] = useState(null);
+    // const [selectInstalment, setSelectInstalmnet] = useState(null);
+    const [selected, setSelected] = useState(null);
 
     useEffect(() => {
-        getInstalmentDetail(id).then(res => setCar(res.data.instalment));
+        const fetchDetail = async () => {
+            const res = await getInstalmentDetail(id);
+            setCar(res.data.data);
+        };
+        fetchDetail();
     }, [id]);
 
-    const apply = async() => {
-        await ApplyingInstallment({ instalment_id: id, months, notes });
-        alert("Applying for Instalment successfully");
+    if (!car) return <p>Loading...</p>;
+
+    const submit = async (e) => {
+        e.preventDefault();
+
+        try {
+            await applyInstalment({
+                installment_id: car.id,
+                months: selected.month,
+                notes: notes
+            });
+
+            alert("Applying for Instalment successful");
+        } catch (err) {
+            if(err.message) {
+                alert(err.resposne.data.message);
+            } else {
+                alert("Server Error")
+            }
+        }
     };
 
-    if(!car) return null;
+    if (!car) {
+        return <p>Car Not Found</p>;
+    }
 
     return (
-        <div>
-            <h2>{car.car}</h2>
-            <select onChange={e => setMonths(e.target.value)}>
-                {car.available_month.map(m => (
-                    <option key={m.month} value={m.month}>{m.month} mname="" id=""onth</option>
-                ))}
-            </select>
-            <textarea onChange={e => setNotes(e.target.value)}/>
-            <button onClick={apply}>Apply</button>
+        <div className="container mt-4">
+            <h1><b>{car.car}</b> ({car.brand})</h1>
+            <p>{car.description}</p>
+            <h5>Price : {car.price}</h5>
+
+            <hr />
+
+            <h5>Installment</h5>
+
+            <form onSubmit={submit}>
+                {/* SELECT MONTH */}
+                <div className="mb-3">
+                    <label className="form-label">Month</label>
+                    <select
+                        className="form-select"
+                        required
+                        onChange={(e) => {
+                            const month = Number(e.target.value);
+                            const found = car.available_month.find(
+                                (item) => item.month === month
+                            );
+                            setSelected(found);
+                        }}
+                    >
+                        <option value="">-- Select Month --</option>
+                        {car.available_month.map((item) => (
+                            <option key={item.month} value={item.month}>
+                                {item.month} month
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                {/* NOMINAL */}
+                {selected && (
+                    <div className="mb-3">
+                        <label className="form-label">Price/Month</label>
+                        <input
+                            className="form-control"
+                            value={`Rp ${selected.nominal}`}
+                            disabled
+                        />
+                    </div>
+                )}
+
+                {/* NOTES */}
+                <div className="mb-3">
+                    <label className="form-label">Notes</label>
+                    <textarea
+                        className="form-control"
+                        rows="3"
+                        placeholder="Tambahkan catatan (opsional)"
+                        onChange={(e) => setNotes(e.target.value)}
+                    />
+                </div>
+
+                <button className="btn btn-primary" disabled={!selected}>
+                    Apply Instalment
+                </button>
+            </form>
         </div>
     );
 }

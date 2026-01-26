@@ -28,8 +28,9 @@ export default function ValidationRequest() {
     };
 
   return (
-    <div className="container p-4">
-      <h2 className="mb-3">Validation Request</h2>
+    <div className="container">
+      <h1 className="">Validation Request</h1>
+      <div className="p-4 ">
       <form onSubmit={submit}>
         <div className="mb-3">
           <input
@@ -77,6 +78,7 @@ export default function ValidationRequest() {
         </div>
         <button className="btn btn-primary">Send Validation</button>
       </form>
+      </div>
     </div>
   );
 }
