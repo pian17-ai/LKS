@@ -38,8 +38,8 @@ class SocietyController extends Controller
 
     public function login(Request $request) {
         $validated = $request->validate([
-            'id_card_number' => 'required',
-            'password' => 'required'
+            'id_card_number' => 'required|string',
+            'password' => 'required|string'
         ]);
 
         $society = Society::where('id_card_number', $validated['id_card_number'])->first();
