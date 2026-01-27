@@ -40,6 +40,13 @@ class ValidationController extends Controller
         $user = $request->user();
 
         $validation = Validation::where('society_id', $user->id)->first();
+
+        if (!$validation) {
+            return response()->json([
+                'message' => 'validation not found'
+            ], 404);
+        }
+
         $validation->load('validator');
 
         return response()->json([
