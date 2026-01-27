@@ -9,8 +9,6 @@ export default function Navbar() {
         await logout();
         navigate("/");
     };
-    // console.log("USER NAVBAR:", user);
-
 
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -31,7 +29,7 @@ export default function Navbar() {
                                 <Link className="nav-link" to={"/validation"}>Validation</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to={"/aplications"} >Instalment</Link>
+                                <Link className="nav-link" to={"/applications"} >Instalment</Link>
                             </li>
                             <li className="nav-item dropdown">
                                 <button

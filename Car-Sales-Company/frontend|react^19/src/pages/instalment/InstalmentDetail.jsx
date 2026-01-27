@@ -1,44 +1,70 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { applyInstalment, getInstalmentDetail } from "../../api/installment.api";
+import {
+    applyInstalment,
+    getInstalmentDetail,
+} from "../../api/installment.api";
+import { getValidation } from "../../api/validation.api";
 
 export default function InstalmentDetail() {
     const { id } = useParams();
     const [car, setCar] = useState(null);
     const [notes, setNotes] = useState(null);
-    // const [selectMonth, setSelectMonth] = useState(null);
-    // const [selectInstalment, setSelectInstalmnet] = useState(null);
     const [selected, setSelected] = useState(null);
+    const [validation, setValidation] = useState(null);
 
     useEffect(() => {
-        const fetchDetail = async () => {
-            const res = await getInstalmentDetail(id);
-            setCar(res.data.data);
-        };
-        fetchDetail();
-    }, [id]);
+    const fetchValidation = async () => {
+        const val = await getValidation();
+        setValidation(val);
+    };
+    fetchValidation();
+}, []);
+
+useEffect(() => {
+    const fetchDetail = async () => {
+        const res = await getInstalmentDetail(id);
+        setCar(res.data.data);
+    };
+    fetchDetail();
+}, [id]);
+
 
     if (!car) return <p>Loading...</p>;
 
     const submit = async (e) => {
-        e.preventDefault();
+    e.preventDefault();
 
-        try {
-            await applyInstalment({
-                installment_id: car.id,
-                months: selected.month,
-                notes: notes
-            });
-
-            alert("Applying for Instalment successful");
-        } catch (err) {
-            if(err.message) {
-                alert(err.resposne.data.message);
-            } else {
-                alert("Server Error")
-            }
+    try {
+        // cek validation
+        if (!validation || validation.status !== "accepted") {
+            alert("Your data validator must be accepted by validator before");
+            return; // stop submit
         }
-    };
+
+        // opsional: cek sudah punya instalment
+        if (car.current_instalment_count >= 1) {
+            alert("Application for a instalment can only be once");
+            return;
+        }
+
+        // baru panggil API
+        await applyInstalment({
+            installment_id: car.id,
+            months: selected.month,
+            notes: notes
+        });
+
+        alert("Applying for Instalment successful");
+    } catch (err) {
+        console.error(err);
+        if (err.response?.data?.message) {
+            alert(err.response.data.message);
+        } else {
+            alert("Server Error");
+        }
+    }
+};
 
     if (!car) {
         return <p>Car Not Found</p>;
@@ -46,7 +72,9 @@ export default function InstalmentDetail() {
 
     return (
         <div className="container mt-4">
-            <h1><b>{car.car}</b> ({car.brand})</h1>
+            <h1>
+                <b>{car.car}</b> ({car.brand})
+            </h1>
             <p>{car.description}</p>
             <h5>Price : {car.price}</h5>
 
@@ -64,7 +92,7 @@ export default function InstalmentDetail() {
                         onChange={(e) => {
                             const month = Number(e.target.value);
                             const found = car.available_month.find(
-                                (item) => item.month === month
+                                (item) => item.month === month,
                             );
                             setSelected(found);
                         }}
