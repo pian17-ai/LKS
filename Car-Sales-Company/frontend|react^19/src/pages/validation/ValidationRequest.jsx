@@ -17,11 +17,11 @@ export default function ValidationRequest({ onSuccess }) {
 
     try {
       await submitValidation(form);
-      alert("Validation berhasil dikirim ✅");
-      onSuccess(); // refresh GET validation
+      alert("Request data validation sent successful");
+      onSuccess();
     } catch (err) {
       console.error(err);
-      alert("Validation gagal ❌");
+      alert("Failed sent validation data");
     } finally {
       setSubmitting(false);
     }

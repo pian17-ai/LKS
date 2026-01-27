@@ -9,10 +9,7 @@ export default function MyApplication() {
     const fetchApplications = async () => {
       try {
         const res = await GetMyApplications();
-        console.log("API RESPONSE:", res);
-        console.log("API DATA:", res.data);
 
-        // ✅ pakai installments karena API mengirim key itu
         setApplications(res.data.installments || []);
       } catch (err) {
         console.error(err);
@@ -44,7 +41,7 @@ export default function MyApplication() {
                 <p className="card-text">{car.description}</p>
               </div>
 
-              {/* KANAN: Application Info */}
+              {/* KANAN */}
               <div className="col-md-4 border-start">
                 <h6 className="fw-bold">Application Info</h6>
                 {car.applications ? (

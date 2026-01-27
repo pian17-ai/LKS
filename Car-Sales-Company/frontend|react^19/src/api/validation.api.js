@@ -1,40 +1,19 @@
-// import api from "./axios"
-
-
-// export const requestValidation = (data) => {
-  //     return api.post("/validation", data);
-  // }
-  
-  // export const getValidationStatus = () => {
-    //     return api.get("/validations");
-    // }
-    // import api from "./axios";
-    
-    // export const getValidation = async () => {
-      //   return await api.get("/validations");
-      // };
-      
-      // export const createValidation = async (payload) => {
-        //   return await api.post("/validation", payload);
-        // };
-        
 import api from "./axios";
 
 export const getValidation = async () => {
   try {
     const res = await api.get("/validations");
 
-    // cek apakah data.validation ada dan punya id
     if (!res.data.validation || !res.data.validation.id) {
-      return null; // dianggap belum ada validation
+      return null;
     }
 
-    return res.data.validation; // validation ada, return object
+    return res.data.validation;
   } catch (err) {
     if (err.response?.status === 404) {
-      return null; // belum validation
+      return null;
     }
-    throw err; // error lain lempar
+    throw err;
   }
 };
 

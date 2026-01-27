@@ -15,7 +15,6 @@ export const AuthProvider = ({ children }) => {
   }
 });
 
-  // 🔥 load user dari localStorage pas refresh
   useState(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser && storedUser !== "undefined") {
@@ -28,7 +27,6 @@ export const AuthProvider = ({ children }) => {
 
     const token = res.data.token;
 
-    // 🔥 karena user ADA LANGSUNG di res.data
     const userData = {
       name: res.data.name,
       born_date: res.data.born_date,

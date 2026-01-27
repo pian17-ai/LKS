@@ -36,19 +36,16 @@ useEffect(() => {
     e.preventDefault();
 
     try {
-        // cek validation
         if (!validation || validation.status !== "accepted") {
             alert("Your data validator must be accepted by validator before");
-            return; // stop submit
+            return;
         }
 
-        // opsional: cek sudah punya instalment
         if (car.current_instalment_count >= 1) {
             alert("Application for a instalment can only be once");
             return;
         }
 
-        // baru panggil API
         await applyInstalment({
             installment_id: car.id,
             months: selected.month,

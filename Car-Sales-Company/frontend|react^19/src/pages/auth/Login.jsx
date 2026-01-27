@@ -6,50 +6,23 @@ export default function Login() {
   const [idCard, setIdCard] = useState("");
   const [password, setPassword] = useState("");
 
-  // const submit = async (e) => {
-  //   e.preventDefault();
+  const submit = async (e) => {
+    e.preventDefault();
 
-  //   try {
-  //     await login(idCard, password);
-  //     alert("Login success");
-  //   } catch {
-  //     alert("ID Card Number atau Password salah");
-  //   }
-  // };
+    console.log("FORM LOGIN:", {
+      idCard,
+      password,
+      type: typeof idCard,
+    });
 
-//   const submit = async (e) => {
-//   e.preventDefault();
-
-//   try {
-//     await login(
-//       idCard.trim(),
-//       password.trim()
-//     );
-//     alert("Login success");
-//   } catch {
-//     alert("ID Card Number atau Password salah");
-//   }
-// };
-
-const submit = async (e) => {
-  e.preventDefault();
-
-  console.log("FORM LOGIN:", {
-    idCard,
-    password,
-    type: typeof idCard,
-  });
-
-  try {
-    await login(idCard, password);
-    alert("Login success");
-  } catch (err) {
-    console.error("LOGIN ERROR:", err);
-    alert("ID Card Number atau Password salah");
-  }
-};
-
-
+    try {
+      await login(idCard, password);
+      alert("Login success");
+    } catch (err) {
+      console.error("LOGIN ERROR:", err);
+      alert("ID Card Number atau Password salah");
+    }
+  };
 
   return (
     <div className="container p-4">
