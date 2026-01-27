@@ -1,12 +1,22 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { AuthContext } from "./AuthContext";
 import { loginApi, logoutApi } from "../api/auth.api";
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+  const storedUser = localStorage.getItem("user");
+  if (!storedUser || storedUser === "undefined") return null;
+
+  try {
+    return JSON.parse(storedUser);
+  } catch {
+    localStorage.removeItem("user");
+    return null;
+  }
+});
 
   // 🔥 load user dari localStorage pas refresh
-  useEffect(() => {
+  useState(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser && storedUser !== "undefined") {
       setUser(JSON.parse(storedUser));

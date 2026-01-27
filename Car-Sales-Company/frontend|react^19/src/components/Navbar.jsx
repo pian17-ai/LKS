@@ -9,7 +9,7 @@ export default function Navbar() {
         await logout();
         navigate("/");
     };
-    console.log("USER NAVBAR:", user);
+    // console.log("USER NAVBAR:", user);
 
 
     return (
