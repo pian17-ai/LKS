@@ -31,7 +31,7 @@ class InstallmentApplySocietyController extends Controller
             ], 401);
         }
 
-        $checkAlready = InstallmentApplySociety::where('installment_id', $validated['installment_id'])->first();
+        $checkAlready = InstallmentApplySociety::where('society_id', $user->id)->where('installment_id', $validated['installment_id'])->first();
 
         if ($checkAlready) {
             return response()->json([
@@ -67,7 +67,14 @@ class InstallmentApplySocietyController extends Controller
     {
         $user = $request->user();
 
-        $installment = InstallmentApplyStatus::get();
+        $installment = InstallmentApplyStatus::where('society_id', $user->id)->get();
+
+        if (!$installment) {
+            return response()->json([
+                'message' => 'Applications is empty'
+            ]);
+        }
+
         $installment->load(['installment', 'available_month', 'installment_apply_society']);
 
         return response()->json([

@@ -44,7 +44,7 @@ class ValidationController extends Controller
         if (!$validation) {
             return response()->json([
                 'message' => 'validation not found'
-            ], 404);
+            ]);
         }
 
         $validation->load('validator');
