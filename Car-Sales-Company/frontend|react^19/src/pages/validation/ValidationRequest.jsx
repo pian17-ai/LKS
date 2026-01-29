@@ -9,7 +9,7 @@ export default function ValidationRequest({ onSuccess }) {
     reason_accepted: "",
     validator_id: ""
   });
-  const [submitting, setSubmitting] = useState(false); // state untuk mencegah alert 2x
+  const [submitting, setSubmitting] = useState(false);
 
   const submit = async (e) => {
     e.preventDefault();

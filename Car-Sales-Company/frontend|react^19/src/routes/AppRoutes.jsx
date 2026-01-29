@@ -5,11 +5,12 @@ import MyApplication from "../pages/application/MyApplication";
 import MainLayout from "../layouts/MainLayout";
 import InstalmentDetail from "../pages/instalment/InstalmentDetail";
 import ValidationPage from "../pages/validation/ValidationPage";
+import AuthPage from "../pages/auth/AuthPage";
 
 export default function AppRoutes() {
     return (
         <Routes>
-            <Route path="/" element={<Login />} />
+            <Route path="/" element={<AuthPage />} />
 
             <Route element={<MainLayout/>}>
                 <Route path="/validation" element={<ValidationPage />} />

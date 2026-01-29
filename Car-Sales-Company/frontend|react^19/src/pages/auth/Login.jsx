@@ -1,23 +1,21 @@
 import { useState } from "react";
 import { useAuth } from "../../context/UseAuth";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const { login } = useAuth();
   const [idCard, setIdCard] = useState("");
   const [password, setPassword] = useState("");
 
+  const navigate = useNavigate();
+
   const submit = async (e) => {
     e.preventDefault();
-
-    console.log("FORM LOGIN:", {
-      idCard,
-      password,
-      type: typeof idCard,
-    });
 
     try {
       await login(idCard, password);
       alert("Login success");
+      navigate("/instalments");
     } catch (err) {
       console.error("LOGIN ERROR:", err);
       alert("ID Card Number atau Password salah");
@@ -26,7 +24,7 @@ export default function Login() {
 
   return (
     <div className="container p-4">
-      <h2 className="mb-4">Login Society</h2>
+      <h1 className="mb-4">Login Society</h1>
       <form onSubmit={submit}>
         <div className="mb-3">
           <input

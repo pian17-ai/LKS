@@ -13,7 +13,6 @@ export default function MyApplication() {
         setApplications(res.data.installments || []);
       } catch (err) {
         console.error(err);
-        alert("Failed to fetch applications");
       } finally {
         setLoading(false);
       }
